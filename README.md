@@ -46,7 +46,7 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 
 #### 测试数据
 如果有如下测试数据。
-![测试数据]: https://github.com/myjgithubdl/easy-data/raw/master/docs/docs/assets/imgs/test-data.png
+![测试数据]:(https://github.com/myjgithubdl/easy-data/raw/master/docs/docs/assets/imgs/test-data.png)
 
 
 #### 导出Excel
@@ -54,4 +54,4 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 
 ## 捐助
 
-![微信]: https://github.com/myjgithubdl/easy-data/raw/master/docs/assets/imgs/alipay-code.png
+![微信]:(https://github.com/myjgithubdl/easy-data/raw/master/docs/assets/imgs/alipay-code.png)
