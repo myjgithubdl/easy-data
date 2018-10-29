@@ -28,14 +28,9 @@ public class ExportExcelParams {
 
 
     /**
-     * 导出的Excel表头  List 类型
+     * 原始Excel表头  List 类型
      */
     private List<TheadColumn> theadColumnList;
-
-    /**
-     *导出的Excel表头  json数组的字符串类型（先查找theadColumnList，如果为空在检查该字符串）
-     */
-    private String theadColumnStrs;
 
     /**
      * 导出的Excel数据
@@ -47,14 +42,4 @@ public class ExportExcelParams {
      */
     private List<ExcelCellStyle> excelCellStyleList;
 
-    public List<TheadColumn> getTheadColumnList() {
-        if(theadColumnList != null && theadColumnList.size() > 0){
-            return theadColumnList;
-        }else{
-            if(theadColumnStrs != null && theadColumnStrs.trim().length() > 0 ){
-                theadColumnList=JSONObject.parseArray(theadColumnStrs ,TheadColumn.class );
-            }
-        }
-        return theadColumnList;
-    }
 }

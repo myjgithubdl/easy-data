@@ -1,14 +1,12 @@
 package com.easydata.export.excel;
 
+import com.easydata.enmus.*;
 import com.easydata.head.TheadColumn;
 import com.easydata.head.TheadColumnTree;
 import com.easydata.head.TheadColumnTreeUtil;
 import com.easydata.exception.ExcelExportException;
 import com.easydata.export.data.DataColumnTree;
 import com.easydata.export.data.DataColumnTreeUtil;
-import com.easydata.enmus.CellStyleType;
-import com.easydata.enmus.ExcelExportEnum;
-import com.easydata.enmus.ExcelType;
 import lombok.Setter;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
@@ -397,12 +395,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getTheadTextAlign() != null) {
-                    xssfCellStyle.setAlignment(theadColumn.getTheadTextAlign());
+                    xssfCellStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getTheadTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getTheadVerticalAlign() != null) {
-                    xssfCellStyle.setVerticalAlignment(theadColumn.getTheadVerticalAlign());
+                    xssfCellStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getTheadVerticalAlign()));
                 }
 
                 allCellStyleMap.put(cellHeadStyleKey, xssfCellStyle);
@@ -440,12 +438,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getDataTextAlign() != null) {
-                    dataCellStyle.setAlignment(theadColumn.getDataTextAlign());
+                    dataCellStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getDataTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getDataVerticalAlign() != null) {
-                    dataCellStyle.setVerticalAlignment(theadColumn.getDataVerticalAlign());
+                    dataCellStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getDataVerticalAlign()));
                 }
 
                 //背景颜色
@@ -461,51 +459,51 @@ public class ExportExcelCore {
 
 
         //创建自定义的样式  start ****************************************
-        if(this.exporExcelParams.getExcelCellStyleList() != null
-                && this.exporExcelParams.getExcelCellStyleList().size() > 0 ){
-            for(ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()){
-                String cellStyleKey=this.getCellStyleKey(excelCellStyle);
-                if(cellStyleKey.length() > 0
-                        && this.allCellStyleMap.get(cellStyleKey) == null){
+        if (this.exporExcelParams.getExcelCellStyleList() != null
+                && this.exporExcelParams.getExcelCellStyleList().size() > 0) {
+            for (ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()) {
+                String cellStyleKey = this.getCellStyleKey(excelCellStyle);
+                if (cellStyleKey.length() > 0
+                        && this.allCellStyleMap.get(cellStyleKey) == null) {
                     XSSFCellStyle cellStyle = (XSSFCellStyle) sxssfWorkbook.createCellStyle();
-                    if(excelCellStyle.getTextAlign() != null){
+                    if (excelCellStyle.getTextAlign() != null) {
                         cellStyle.setAlignment(excelCellStyle.getTextAlign());
                     }
 
-                    if(excelCellStyle.getVerticalAlign() != null){
+                    if (excelCellStyle.getVerticalAlign() != null) {
                         cellStyle.setVerticalAlignment(excelCellStyle.getVerticalAlign());
                     }
                     //字体颜色
-                    if(excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
-                            && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6)){
+                    if (excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
+                            && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6)) {
                         XSSFFont font = (XSSFFont) sxssfWorkbook.createFont();
-                        if(excelCellStyle.getFontColor() != null
-                                && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6){
+                        if (excelCellStyle.getFontColor() != null
+                                && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6) {
                             String fontColor = excelCellStyle.getFontColor().trim().replaceAll("#", "");
-                            XSSFColor fontXSSFColor =(XSSFColor) sxssfWorkbook.getCreationHelper().createExtendedColor();
+                            XSSFColor fontXSSFColor = (XSSFColor) sxssfWorkbook.getCreationHelper().createExtendedColor();
                             fontXSSFColor.setARGBHex(fontColor);
                             font.setColor(fontXSSFColor);
                         }
 
-                        if(excelCellStyle.isBold()){
+                        if (excelCellStyle.isBold()) {
                             font.setBold(true);
                         }
                         cellStyle.setFont(font);
                     }
 
-                    if(excelCellStyle.getBgColor() != null
-                            && excelCellStyle.getBgColor().trim().replaceAll("#","").length()==6){
+                    if (excelCellStyle.getBgColor() != null
+                            && excelCellStyle.getBgColor().trim().replaceAll("#", "").length() == 6) {
                         String bgColor = excelCellStyle.getBgColor().trim().replaceAll("#", "");
-                        XSSFColor xssfColor =(XSSFColor) sxssfWorkbook.getCreationHelper().createExtendedColor();
+                        XSSFColor xssfColor = (XSSFColor) sxssfWorkbook.getCreationHelper().createExtendedColor();
                         xssfColor.setARGBHex(bgColor);
                         cellStyle.setFillForegroundColor(xssfColor);
                         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                     }
 
-                    if(excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
-                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0 ){
+                    if (excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
+                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0) {
                         Row row = sheet.getRow(excelCellStyle.getRowIndex());
-                        if(row != null){
+                        if (row != null) {
                             row.setHeight(getRowHeight(excelCellStyle.getRowHeight()));
                         }
                     }
@@ -572,12 +570,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getTheadTextAlign() != null) {
-                    xssfCellStyle.setAlignment(theadColumn.getTheadTextAlign());
+                    xssfCellStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getTheadTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getTheadVerticalAlign() != null) {
-                    xssfCellStyle.setVerticalAlignment(theadColumn.getTheadVerticalAlign());
+                    xssfCellStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getTheadVerticalAlign()));
                 }
 
                 allCellStyleMap.put(cellHeadStyleKey, xssfCellStyle);
@@ -615,12 +613,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getDataTextAlign() != null) {
-                    dataCellStyle.setAlignment(theadColumn.getDataTextAlign());
+                    dataCellStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getDataTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getDataVerticalAlign() != null) {
-                    dataCellStyle.setVerticalAlignment(theadColumn.getDataVerticalAlign());
+                    dataCellStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getDataVerticalAlign()));
                 }
 
                 //背景颜色
@@ -635,40 +633,40 @@ public class ExportExcelCore {
         }
 
         //创建自定义的样式  start ****************************************
-        if(this.exporExcelParams.getExcelCellStyleList() != null
-                && this.exporExcelParams.getExcelCellStyleList().size() > 0 ){
-            for(ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()){
-                String cellStyleKey=this.getCellStyleKey(excelCellStyle);
-                if(cellStyleKey.length() > 0
-                        && this.allCellStyleMap.get(cellStyleKey) == null){
+        if (this.exporExcelParams.getExcelCellStyleList() != null
+                && this.exporExcelParams.getExcelCellStyleList().size() > 0) {
+            for (ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()) {
+                String cellStyleKey = this.getCellStyleKey(excelCellStyle);
+                if (cellStyleKey.length() > 0
+                        && this.allCellStyleMap.get(cellStyleKey) == null) {
                     XSSFCellStyle cellStyle = xssfWorkbook.createCellStyle();
-                    if(excelCellStyle.getTextAlign() != null){
+                    if (excelCellStyle.getTextAlign() != null) {
                         cellStyle.setAlignment(excelCellStyle.getTextAlign());
                     }
 
-                    if(excelCellStyle.getVerticalAlign() != null){
+                    if (excelCellStyle.getVerticalAlign() != null) {
                         cellStyle.setVerticalAlignment(excelCellStyle.getVerticalAlign());
                     }
                     //字体颜色
-                    if(excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
-                            && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6)){
+                    if (excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
+                            && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6)) {
                         XSSFFont font = xssfWorkbook.createFont();
-                        if(excelCellStyle.getFontColor() != null
-                                && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6){
+                        if (excelCellStyle.getFontColor() != null
+                                && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6) {
                             String fontColor = excelCellStyle.getFontColor().trim().replaceAll("#", "");
                             XSSFColor fontXSSFColor = xssfWorkbook.getCreationHelper().createExtendedColor();
                             fontXSSFColor.setARGBHex(fontColor);
                             font.setColor(fontXSSFColor);
                         }
 
-                        if(excelCellStyle.isBold()){
+                        if (excelCellStyle.isBold()) {
                             font.setBold(true);
                         }
                         cellStyle.setFont(font);
                     }
 
-                    if(excelCellStyle.getBgColor() != null
-                            && excelCellStyle.getBgColor().trim().replaceAll("#","").length()==6){
+                    if (excelCellStyle.getBgColor() != null
+                            && excelCellStyle.getBgColor().trim().replaceAll("#", "").length() == 6) {
                         String bgColor = excelCellStyle.getBgColor().trim().replaceAll("#", "");
                         XSSFColor xssfColor = xssfWorkbook.getCreationHelper().createExtendedColor();
                         xssfColor.setARGBHex(bgColor);
@@ -676,10 +674,10 @@ public class ExportExcelCore {
                         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                     }
 
-                    if(excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
-                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0 ){
+                    if (excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
+                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0) {
                         Row row = sheet.getRow(excelCellStyle.getRowIndex());
-                        if(row != null){
+                        if (row != null) {
                             row.setHeight(getRowHeight(excelCellStyle.getRowHeight()));
                         }
                     }
@@ -755,12 +753,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getTheadTextAlign() != null) {
-                    headCellStyle.setAlignment(theadColumn.getTheadTextAlign());
+                    headCellStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getTheadTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getTheadVerticalAlign() != null) {
-                    headCellStyle.setVerticalAlignment(theadColumn.getTheadVerticalAlign());
+                    headCellStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getTheadVerticalAlign()));
                 }
 
                 allCellStyleMap.put(cellHeadStyleKey, headCellStyle);
@@ -810,12 +808,12 @@ public class ExportExcelCore {
 
                 //文字水平对齐方式
                 if (theadColumn.getDataTextAlign() != null) {
-                    dataStyle.setAlignment(theadColumn.getDataTextAlign());
+                    dataStyle.setAlignment(this.getHorizontalAlignment(theadColumn.getDataTextAlign()));
                 }
 
                 //文字垂直对齐方式
                 if (theadColumn.getDataVerticalAlign() != null) {
-                    dataStyle.setVerticalAlignment(theadColumn.getDataVerticalAlign());
+                    dataStyle.setVerticalAlignment(this.getVerticalAlignment(theadColumn.getDataVerticalAlign()));
                 }
 
                 allCellStyleMap.put(cellDataStyleKey, dataStyle);
@@ -823,27 +821,27 @@ public class ExportExcelCore {
         }
 
         //创建自定义的样式  start ****************************************
-        if(this.exporExcelParams.getExcelCellStyleList() != null
-                && this.exporExcelParams.getExcelCellStyleList().size() > 0 ){
-            for(ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()){
-                String cellStyleKey=this.getCellStyleKey(excelCellStyle);
-                if(cellStyleKey.length() > 0
-                        && this.allCellStyleMap.get(cellStyleKey) == null){
+        if (this.exporExcelParams.getExcelCellStyleList() != null
+                && this.exporExcelParams.getExcelCellStyleList().size() > 0) {
+            for (ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()) {
+                String cellStyleKey = this.getCellStyleKey(excelCellStyle);
+                if (cellStyleKey.length() > 0
+                        && this.allCellStyleMap.get(cellStyleKey) == null) {
                     CellStyle dataStyle = hssfWorkbook.createCellStyle();
-                    if(excelCellStyle.getTextAlign() != null){
+                    if (excelCellStyle.getTextAlign() != null) {
                         dataStyle.setAlignment(excelCellStyle.getTextAlign());
                     }
 
-                    if(excelCellStyle.getVerticalAlign() != null){
+                    if (excelCellStyle.getVerticalAlign() != null) {
                         dataStyle.setVerticalAlignment(excelCellStyle.getVerticalAlign());
                     }
 
                     //字体颜色
-                    if(excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
-                            && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6)){
+                    if (excelCellStyle.isBold() || (excelCellStyle.getFontColor() != null
+                            && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6)) {
                         Font font = hssfWorkbook.createFont();
-                        if(excelCellStyle.getFontColor() != null
-                                && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6){
+                        if (excelCellStyle.getFontColor() != null
+                                && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6) {
                             String fontColor = excelCellStyle.getFontColor().trim().replaceAll("#", "");
                             //先检查颜色有没有
                             if (colorStrToIndexMap.get(fontColor) == null) {
@@ -854,14 +852,14 @@ public class ExportExcelCore {
 
                         }
 
-                        if(excelCellStyle.isBold()){
+                        if (excelCellStyle.isBold()) {
                             font.setBold(true);
                         }
                         dataStyle.setFont(font);
                     }
 
-                    if(excelCellStyle.getBgColor() != null
-                            && excelCellStyle.getBgColor().trim().replaceAll("#","").length()==6){
+                    if (excelCellStyle.getBgColor() != null
+                            && excelCellStyle.getBgColor().trim().replaceAll("#", "").length() == 6) {
                         String bgColor = excelCellStyle.getBgColor().trim().replaceAll("#", "");
                         if (colorStrToIndexMap.get(bgColor) == null) {
                             this.createCustomPalette(hssfWorkbook, colorStrToIndexMap, colorIndex, bgColor);
@@ -871,10 +869,10 @@ public class ExportExcelCore {
                         colorIndex++;
                     }
 
-                    if(excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
-                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0 ){
+                    if (excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0
+                            && excelCellStyle.getRowIndex() != null && excelCellStyle.getRowIndex() > 0) {
                         Row row = sheet.getRow(excelCellStyle.getRowIndex());
-                        if(row != null){
+                        if (row != null) {
                             row.setHeight(getRowHeight(excelCellStyle.getRowHeight()));
                         }
                     }
@@ -926,48 +924,49 @@ public class ExportExcelCore {
 
     /**
      * 获取自定义的样式key
+     *
      * @param excelCellStyle
      * @return
      */
     public String getCellStyleKey(ExcelCellStyle excelCellStyle) {
-        String cellStyleKey="";
-        if(excelCellStyle != null
-                && (excelCellStyle.getRowIndex() != null || excelCellStyle.getCellIndex() != null )){
+        String cellStyleKey = "";
+        if (excelCellStyle != null
+                && (excelCellStyle.getRowIndex() != null || excelCellStyle.getCellIndex() != null)) {
 
-            if(excelCellStyle.getTextAlign() != null){
-                cellStyleKey +="$textAlign_"+excelCellStyle.getTextAlign();
+            if (excelCellStyle.getTextAlign() != null) {
+                cellStyleKey += "$textAlign_" + excelCellStyle.getTextAlign();
             }
 
-            if(excelCellStyle.getVerticalAlign() != null){
-                cellStyleKey +="$verticalAlign_"+excelCellStyle.getVerticalAlign();
+            if (excelCellStyle.getVerticalAlign() != null) {
+                cellStyleKey += "$verticalAlign_" + excelCellStyle.getVerticalAlign();
             }
 
-            if(excelCellStyle.getFontColor() != null
-                    && excelCellStyle.getFontColor().trim().replaceAll("#","").length()==6){
-                cellStyleKey +="$fontColor_"+excelCellStyle.getFontColor();
+            if (excelCellStyle.getFontColor() != null
+                    && excelCellStyle.getFontColor().trim().replaceAll("#", "").length() == 6) {
+                cellStyleKey += "$fontColor_" + excelCellStyle.getFontColor();
             }
 
-            if(excelCellStyle.getBgColor() != null
-                    && excelCellStyle.getBgColor().trim().replaceAll("#","").length()==6){
-                cellStyleKey +="$bgColor_"+excelCellStyle.getBgColor();
+            if (excelCellStyle.getBgColor() != null
+                    && excelCellStyle.getBgColor().trim().replaceAll("#", "").length() == 6) {
+                cellStyleKey += "$bgColor_" + excelCellStyle.getBgColor();
             }
 
             /*if(excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0){
                 cellStyleKey +="$rowHeight_"+excelCellStyle.getRowHeight();
             }*/
 
-            if(excelCellStyle.isBold()){
-                cellStyleKey +="$bold_"+excelCellStyle.isBold();
+            if (excelCellStyle.isBold()) {
+                cellStyleKey += "$bold_" + excelCellStyle.isBold();
             }
 
-            if(excelCellStyle.getRowIndex() != null && cellStyleKey.length() > 0 ){
-                cellStyleKey ="$rowIndex_"+excelCellStyle.getRowIndex()+cellStyleKey;
+            if (excelCellStyle.getRowIndex() != null && cellStyleKey.length() > 0) {
+                cellStyleKey = "$rowIndex_" + excelCellStyle.getRowIndex() + cellStyleKey;
             }
-            if(excelCellStyle.getCellIndex() != null && cellStyleKey.length() > 0 ){
-                cellStyleKey ="$cellIndex_"+excelCellStyle.getCellIndex()+cellStyleKey;
+            if (excelCellStyle.getCellIndex() != null && cellStyleKey.length() > 0) {
+                cellStyleKey = "$cellIndex_" + excelCellStyle.getCellIndex() + cellStyleKey;
             }
         }
-        if(cellStyleKey.length() > 0){
+        if (cellStyleKey.length() > 0) {
             return cellStyleKey.substring(1);
         }
         return cellStyleKey;
@@ -1028,9 +1027,9 @@ public class ExportExcelCore {
                 LOGGER.info("结束合并Excel的合并部分，耗时：" + (System.currentTimeMillis() - startTime1) + "毫秒。");
             }
 
-            if(this.exporExcelParams.getExcelCellStyleList() != null
-                    && this.exporExcelParams.getExcelCellStyleList().size() > 0 ){
-                this.setExcelCellStyle(workbook,sheet);
+            if (this.exporExcelParams.getExcelCellStyleList() != null
+                    && this.exporExcelParams.getExcelCellStyleList().size() > 0) {
+                this.setExcelCellStyle(workbook, sheet);
             }
 
         } catch (Exception e) {
@@ -1042,45 +1041,46 @@ public class ExportExcelCore {
 
     /**
      * 设置自定义参数中的样式
+     *
      * @param workbook
      * @param sheet
      */
-    private void setExcelCellStyle(Workbook workbook , Sheet sheet){
-        for(ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()){
-            if(excelCellStyle == null){
+    private void setExcelCellStyle(Workbook workbook, Sheet sheet) {
+        for (ExcelCellStyle excelCellStyle : this.exporExcelParams.getExcelCellStyleList()) {
+            if (excelCellStyle == null) {
                 continue;
             }
-            Integer rowIndex=excelCellStyle.getRowIndex();
-            if(rowIndex == null ){
+            Integer rowIndex = excelCellStyle.getRowIndex();
+            if (rowIndex == null) {
                 continue;
             }
             Row row = sheet.getRow(rowIndex);
-            if(row == null ){
-                LOGGER.info("sheet.getRow("+rowIndex+")：对象想为空！");
+            if (row == null) {
+                LOGGER.info("sheet.getRow(" + rowIndex + ")：对象想为空！");
                 continue;
             }
-            if(excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() >0){
+            if (excelCellStyle.getRowHeight() != null && excelCellStyle.getRowHeight() > 0) {
                 row.setHeight(this.getRowHeight(excelCellStyle.getRowHeight()));
             }
             String cellStyleKey = this.getCellStyleKey(excelCellStyle);
-            if(cellStyleKey.length() > 0){
-                Integer cellIndex=excelCellStyle.getCellIndex();
-                if(cellIndex != null && cellIndex > 0){
-                    if(this.allCellStyleMap.get(cellStyleKey) != null ){
+            if (cellStyleKey.length() > 0) {
+                Integer cellIndex = excelCellStyle.getCellIndex();
+                if (cellIndex != null && cellIndex > 0) {
+                    if (this.allCellStyleMap.get(cellStyleKey) != null) {
                         Cell cell = row.getCell(cellIndex);
-                        if(cell != null ){
+                        if (cell != null) {
                             cell.setCellStyle(this.allCellStyleMap.get(cellStyleKey));
                         }
                     }
-                }else{
+                } else {
                     short lastCellNum = row.getLastCellNum();
-                    cellIndex=0;
-                    while(cellIndex <= lastCellNum ){
+                    cellIndex = 0;
+                    while (cellIndex <= lastCellNum) {
                         Cell cell = row.getCell(cellIndex);
-                        if(cell != null ){
+                        if (cell != null) {
                             cell.setCellStyle(this.allCellStyleMap.get(cellStyleKey));
                         }
-                        cellIndex ++;
+                        cellIndex++;
                     }
                 }
             }
@@ -1114,11 +1114,11 @@ public class ExportExcelCore {
         for (int i = 0; i < theadColumnTrees.size(); ++i) {
             TheadColumnTree theadColumnTree = theadColumnTrees.get(i);
             if (CellStyleType.HEAD.equals(cellStyleType)) {
-                if(theadColumnTree.getTheadRowHeight() != null && theadColumnTree.getTheadRowHeight()>0){
+                if (theadColumnTree.getTheadRowHeight() != null && theadColumnTree.getTheadRowHeight() > 0) {
                     maxHeight = maxHeight > theadColumnTree.getTheadRowHeight() ? maxHeight : theadColumnTree.getTheadRowHeight();
                 }
             } else {
-                if(theadColumnTree.getDataRowHeight() != null && theadColumnTree.getDataRowHeight()>0) {
+                if (theadColumnTree.getDataRowHeight() != null && theadColumnTree.getDataRowHeight() > 0) {
                     maxHeight = maxHeight > theadColumnTree.getDataRowHeight() ? maxHeight : theadColumnTree.getDataRowHeight();
                 }
             }
@@ -1126,9 +1126,45 @@ public class ExportExcelCore {
         return this.getRowHeight(maxHeight);
     }
 
-    public short getRowHeight(double height){
-        short rowHeight=(short) ((int) (height * 50.0D));
+    public short getRowHeight(double height) {
+        short rowHeight = (short) ((int) (height * 50.0D));
         return rowHeight;
+    }
+
+    /**
+     * 获取单元格水平对齐样式
+     *
+     * @param textHorizontalAlignment
+     * @return
+     */
+    private HorizontalAlignment getHorizontalAlignment(TextHorizontalAlignment textHorizontalAlignment) {
+        if (TextHorizontalAlignment.LEFT == textHorizontalAlignment) {
+            return HorizontalAlignment.LEFT;
+        } else if (TextHorizontalAlignment.CENTER == textHorizontalAlignment) {
+            return HorizontalAlignment.CENTER;
+        } else if (TextHorizontalAlignment.RIGHT == textHorizontalAlignment) {
+            return HorizontalAlignment.RIGHT;
+        } else if (TextHorizontalAlignment.GENERAL == textHorizontalAlignment) {
+            return HorizontalAlignment.GENERAL;
+        }
+        return HorizontalAlignment.GENERAL;
+    }
+
+    /**
+     * 获取单元格垂直对齐样式
+     *
+     * @param textVerticalAlignment
+     * @return
+     */
+    private VerticalAlignment getVerticalAlignment(TextVerticalAlignment textVerticalAlignment) {
+        if (TextVerticalAlignment.TOP == textVerticalAlignment) {
+            return VerticalAlignment.TOP;
+        } else if (TextVerticalAlignment.BOTTOM == textVerticalAlignment) {
+            return VerticalAlignment.BOTTOM;
+        } else if (TextVerticalAlignment.CENTER == textVerticalAlignment) {
+            return VerticalAlignment.CENTER;
+        }
+        return VerticalAlignment.CENTER;
     }
 
 }

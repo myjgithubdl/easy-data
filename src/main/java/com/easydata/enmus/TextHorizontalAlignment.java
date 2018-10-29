@@ -8,24 +8,28 @@ package com.easydata.enmus;
  * 单元格水平方向的文字对齐方式
  */
 public enum TextHorizontalAlignment {
-    GENERAL("general"),
-    LEFT("left"),
-    CENTER("center"),
-    RIGHT("right");
+
+    GENERAL("正常"),
+    LEFT("左对齐"),
+    CENTER("居中对齐"),
+    RIGHT("右对齐"),
+    /*FILL(""),
+    JUSTIFY(""),
+    CENTER_SELECTION(""),
+    DISTRIBUTED("")*/;
 
 
+    private String text;
 
-    private String value;
-
-    private TextHorizontalAlignment(String value) {
-        this.value = value;
+    private TextHorizontalAlignment(String text) {
+        this.text = text;
     }
 
-    public String getValue() {
-        return value;
+    public String getText() {
+        return text;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setText(String text) {
+        this.text = text;
     }
 }

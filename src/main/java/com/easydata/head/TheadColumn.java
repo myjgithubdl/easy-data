@@ -4,17 +4,18 @@ package com.easydata.head;
  * Created by MYJ on 2017/6/9.
  */
 
+import com.easydata.enmus.DataType;
+import com.easydata.enmus.TextHorizontalAlignment;
+import com.easydata.enmus.TextVerticalAlignment;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 
 /**
  * 表头列
  */
 @Getter
 @Setter
-public class TheadColumn  {
+public class TheadColumn {
     /**
      * 编号
      */
@@ -38,7 +39,7 @@ public class TheadColumn  {
     /**
      * 当数据中对应的值为空用该值代替该字段的值
      */
-    private  Object defaultValue;
+    private Object defaultValue;
 
     /**
      * 精度
@@ -49,7 +50,7 @@ public class TheadColumn  {
     /**
      * 数据类型
      */
-    private String dataType;
+    private DataType dataType;
 
     /**
      * 是否隐藏
@@ -100,23 +101,23 @@ public class TheadColumn  {
      * 表头部分对齐方式
      * left,center,right
      */
-    private HorizontalAlignment theadTextAlign;
+    private TextHorizontalAlignment theadTextAlign;
 
     /**
      * 数据部分列对齐方式
      * left,center,right
      */
-    private HorizontalAlignment dataTextAlign;
+    private TextHorizontalAlignment dataTextAlign;
 
     /**
      * 表头文字的垂直对齐
      */
-    private VerticalAlignment theadVerticalAlign;
+    private TextVerticalAlignment theadVerticalAlign;
 
     /**
      * 数据文字的垂直对齐
      */
-    private VerticalAlignment dataVerticalAlign;
+    private TextVerticalAlignment dataVerticalAlign;
 
     /**
      * 表头是否加粗
@@ -131,7 +132,7 @@ public class TheadColumn  {
     /**
      * 是否在尾部追加统计值
      */
-    private Boolean isStatistics;
+    private boolean isStatistics;
 
 
     public TheadColumn() {
@@ -145,8 +146,7 @@ public class TheadColumn  {
     }
 
 
-
-    public TheadColumn(String id, String pid, String name, String text, String dataType, boolean isHidden, boolean downMergeCells) {
+    public TheadColumn(String id, String pid, String name, String text, DataType dataType, boolean isHidden, boolean downMergeCells) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -156,7 +156,7 @@ public class TheadColumn  {
         this.downMergeCells = downMergeCells;
     }
 
-    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer precision, String dataType, boolean isHidden, boolean downMergeCells) {
+    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer precision, DataType dataType, boolean isHidden, boolean downMergeCells) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -168,7 +168,7 @@ public class TheadColumn  {
         this.downMergeCells = downMergeCells;
     }
 
-    public TheadColumn(String id, String pid, String name, String text, boolean downMergeCells, HorizontalAlignment theadTextAlign, HorizontalAlignment dataTextAlign, VerticalAlignment theadVerticalAlign, VerticalAlignment dataVerticalAlign) {
+    public TheadColumn(String id, String pid, String name, String text, boolean downMergeCells, TextHorizontalAlignment theadTextAlign, TextHorizontalAlignment dataTextAlign, TextVerticalAlignment theadVerticalAlign, TextVerticalAlignment dataVerticalAlign) {
         this.id = id;
         this.pid = pid;
         this.name = name;
