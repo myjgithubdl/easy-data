@@ -4,10 +4,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MySQLData {
 
@@ -23,6 +20,8 @@ public class MySQLData {
         }
 
         String[] keyArray = lines.get(0).split(",");
+
+        Arrays.asList(keyArray).stream().forEach(System.out::println);
 
         int index = 0;
         for (String line : lines) {

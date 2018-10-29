@@ -7,6 +7,8 @@ import com.easydata.pivottable.core.PivotTableDataCore;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MYJ on 2018/1/29.
@@ -15,7 +17,8 @@ public class PivotTableTestExportExcel {
 
     public static void main(String[] args) throws IOException {
         //test1();
-        test2();
+        //test2();
+
 
 
     }
@@ -57,4 +60,6 @@ public class PivotTableTestExportExcel {
         ExportExcelUtil.exportExcel(out,"学生成绩透视表" ,pivotTableDataCore.getPivotTableTheadColumnList() ,pivotTableDataCore.getPivotTableDataList() );
 
     }
+
+
 }

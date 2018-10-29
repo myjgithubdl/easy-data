@@ -185,7 +185,6 @@ public class DataColumnTreeUtil {
             if (i != endRowIndex) {
                 value2 = this.returnList.get(i + 1).get(celIndex).getValue();
             }
-
             if (value1.equals(value2)) {//等于下一行同列的值
                 rowspan += 1;
                 this.returnList.get(i + 1).get(celIndex).setHidden(true);
