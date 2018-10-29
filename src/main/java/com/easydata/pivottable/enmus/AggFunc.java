@@ -31,24 +31,23 @@ public enum AggFunc {
     /**
      * 乘积
      */
-    PRODUCT("乘积")
-
-    ;
+    PRODUCT("乘积");
 
     // 成员变量
     private String text;
 
 
-
-    private AggFunc(String text){
-        this.text =  text;
+    private AggFunc(String text) {
+        this.text = text;
     }
 
 
-    public String getText(){
+    public String getText() {
         return this.text;
     }
 
 
-
+    public void setText(String text) {
+        this.text = text;
+    }
 }

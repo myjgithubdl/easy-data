@@ -25,15 +25,16 @@ public class PivotTableDataCore {
     private PivotTable pivotTable;
 
     /**
+     * 原始表头信息  List
+     */
+    private List<TheadColumn> theadColumnList;
+
+    /**
      * 需要转换的原始数据
      */
     private List<Map<String, Object>> dataList;
 
 
-    /**
-     * 原始表头信息  List
-     */
-    private List<TheadColumn> theadColumnList;
 
     /**
      * 原始表头信息  Map
@@ -82,9 +83,20 @@ public class PivotTableDataCore {
         this.dataList = dataList;
         this.theadColumnList = theadColumnList;
 
-        this.theadColumnsConvertMap();
+        /*this.theadColumnsConvertMap();
+        this.groupByRow();*/
+        calcPivotTableData();
+    }
 
+    /**
+     * 开始计算透视表数据
+     *
+     * @return
+     */
+    public PivotTableDataCore calcPivotTableData() {
+        this.theadColumnsConvertMap();
         this.groupByRow();
+        return this;
     }
 
     /**
@@ -236,16 +248,16 @@ public class PivotTableDataCore {
 
                         //再创建表头(如果只有大于一个计算列)
                         String id = colName + Constant.ITEM_SEPARATOR + aggFunc;
-                        if(calCols.size() == 1){
+                        if (calCols.size() == 1) {
                             id = colName;
-                        }else{
+                        } else {
                             id = colName + Constant.ITEM_SEPARATOR + aggFunc;
 
-                            if(!newColIdSet.contains(id)){
+                            if (!newColIdSet.contains(id)) {
                                 newColIdSet.add(id);
                                 TheadColumn newTheadColumn = new TheadColumn();
                                 try {
-                                    BeanUtils.copyProperties(newTheadColumn , theadColumn);
+                                    BeanUtils.copyProperties(newTheadColumn, theadColumn);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -258,7 +270,7 @@ public class PivotTableDataCore {
                             }
                         }
 
-                        pivotTableRow.put(id , value);
+                        pivotTableRow.put(id, value);
 
                     });
                 }
