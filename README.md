@@ -1,7 +1,7 @@
 easy-data
 ==========
 
-easy-data是一个简单的数据处理工具，主要用于根据给定的表头信息和List<Map<String,Object>>数据可以计算出复杂表头（多行表头跨行跨列）、数据部门合并相同的单元格以及将数据转化为Excel透视表，同时支持导出Excel和CSV文件的工具。 
+easy-data是一个简单的数据处理工具，主要用于根据给定的表头信息和List<Map<String,Object>>数据可以计算出复杂表头（多行表头跨行跨列）、数据合并相同的单元格以及将数据转化为Excel透视表，同时支持导出Excel和CSV文件的工具。 
 
 ## 说明 
 ### 功能
@@ -46,7 +46,7 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 
 #### 测试数据
 如果有如下测试数据。
-[微信]: https://github.com/myjgithubdl/easy-data/raw/master/docs/docs/assets/imgs/test-data.png
+![测试数据]: https://github.com/myjgithubdl/easy-data/raw/master/docs/docs/assets/imgs/test-data.png
 
 
 #### 导出Excel
@@ -54,4 +54,4 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 
 ## 捐助
 
-[微信]: https://github.com/myjgithubdl/easy-data/raw/master/docs/assets/imgs/alipay-code.png
+![微信]: https://github.com/myjgithubdl/easy-data/raw/master/docs/assets/imgs/alipay-code.png
