@@ -29,10 +29,10 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 |columnWidth|Double|false|列宽度|
 |theadRowHeight|Double|null|表头行高|
 |dataRowHeight|Double|null|数据行高|
-|theadBGColor|String|null|表头单元格的字体颜色|
-|dataBGColor|String|null|数据单元格的背景颜色|
-|theadFontColor|String|null|表头的字体颜色|
-|dataFontColor|String|null|数据部分的字体颜色|
+|theadBGColor|String|null|表头单元格的字体颜色（如：FFFFFFF）|
+|dataBGColor|String|null|数据单元格的背景颜色（如：FFFFFFF）|
+|theadFontColor|String|null|表头的字体颜色（如：FFFFFFF）|
+|dataFontColor|String|null|数据部分的字体颜色（如：FFFFFFF）|
 |theadTextAlign|TextHorizontalAlignment|null|表头部分对齐方式|
 |dataTextAlign|TextHorizontalAlignment|null|数据部分列对齐方式|
 |theadVerticalAlign|TextVerticalAlignment|null|表头文字的垂直对齐|
@@ -46,7 +46,7 @@ easy-data是一个简单的数据处理工具，主要用于根据给定的表�
 
 #### 测试数据
 
-如果有如下测试数据
+系统使用如下测试数据
 
 ![](https://github.com/myjgithubdl/easy-data/raw/master/docs/assets/imgs/test-data.png)
 
