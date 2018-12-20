@@ -9,15 +9,10 @@ import com.easydata.head.TheadColumn;
 import com.easydata.head.TheadColumnTree;
 import com.easydata.head.TheadColumnTreeUtil;
 import com.easydata.exception.CSVExportException;
-import com.easydata.export.data.DataColumnTree;
-import com.easydata.export.data.DataColumnTreeUtil;
+import com.easydata.data.DataColumnTree;
+import com.easydata.data.DataColumnTreeUtil;
 import com.easydata.enmus.CSVExportEnum;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -83,21 +78,24 @@ public class ExportCSVCore {
             //转换导出数据
             List<List<DataColumnTree>> exportDataListList = DataColumnTreeUtil.getExportFormatDataList(leafNodesTheadColumnTreeList, dataList);
 
-            for (int i = 0, j = exportDataListList.size(); i < j; i++) {
-                //创建行
-                List<DataColumnTree> exportDataList = exportDataListList.get(i);
+            //if(exportDataListList != null ){
+                for (int i = 0, j = exportDataListList.size(); i < j; i++) {
+                    //创建行
+                    List<DataColumnTree> exportDataList = exportDataListList.get(i);
 
-                for (int m = 0, n = exportDataList.size(); m < n; m++) {//列
-                    DataColumnTree dataColumnTree = exportDataList.get(m);
-                    Object text = dataColumnTree.getValue();
-                    sbLineContent.append(text + "");
-                    if (m != n - 1)
-                        sbLineContent.append(",");
+                    for (int m = 0, n = exportDataList.size(); m < n; m++) {//列
+                        DataColumnTree dataColumnTree = exportDataList.get(m);
+                        Object text = dataColumnTree.getValue();
+                        sbLineContent.append(text + "");
+                        if (m != n - 1)
+                            sbLineContent.append(",");
+                    }
+                    sbFileContent.append(sbLineContent);
+                    sbLineContent.setLength(0);
+                    sbLineContent.append("\n");
                 }
-                sbFileContent.append(sbLineContent);
-                sbLineContent.setLength(0);
-                sbLineContent.append("\n");
-            }
+            //}
+
         }
         /************************数据部分 end    ***************************/
         return sbFileContent.toString();
