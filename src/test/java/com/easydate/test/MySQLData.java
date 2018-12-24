@@ -56,6 +56,16 @@ public class MySQLData {
         //表头
         TheadColumn provinceTheadColumn=new TheadColumn("province" , null ,"province","省份" );
         provinceTheadColumn.setDownMergeCells(true);//向下合并单元格值相同的列
+        provinceTheadColumn.setTheadTextAlign(TextHorizontalAlignment.RIGHT);
+        provinceTheadColumn.setColumnWidth(200.0);
+        /*provinceTheadColumn.setTheadFontWeight("800");
+        provinceTheadColumn.setTheadBGColor("#FF0000");
+        provinceTheadColumn.setTheadFontColor("#CCCCCC");
+        provinceTheadColumn.setDataBGColor("#8B4C4C");
+        provinceTheadColumn.setDataFontColor("#18F40F");*/
+        provinceTheadColumn.setDataFontWeight("100");
+        provinceTheadColumn.setHref("http://www.w3school.com.cn/?province=${province}&area=#{area}");
+        provinceTheadColumn.setHrefTarget("_balnk");
 
         TheadColumn areaTheadColumn=new TheadColumn("area" , null ,"area","城市" );
         areaTheadColumn.setDownMergeCells(true);//向下合并单元格值相同的列

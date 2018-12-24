@@ -122,17 +122,44 @@ public class TheadColumn {
     /**
      * 表头是否加粗
      */
-    private boolean theadBold;
+    private String theadFontWeight;
 
     /**
      * 数据是否加粗
      */
-    private boolean dataBold;
+    private String dataFontWeight;
 
     /**
-     * 是否在尾部追加统计值
+     * 是否在统计值
      */
     private boolean isStatistics;
+
+
+    /**
+     * 统计行的位置  top:顶部，bottom：底部
+     */
+    private String statisticsRowPosition;
+
+    /**
+     * （一般是生成HTML时有效）
+     * 列的连接地址  支持${paramName}或#{paramName}写法，会用该数据航的值替代
+     * 如：https://www.baidu.com?name=${name}&v=${version}
+     */
+    private String href ;
+
+
+    /**
+     * 连接的打开方式，在设置了href有效（一般是生成HTML时有效）
+     * 值如下
+     * _blank：在新窗口中打开被链接文档。
+     * _self：默认。在相同的框架中打开被链接文档。
+     * _parent：在父框架集中打开被链接文档。
+     * _top：在整个窗口中打开被链接文档。
+     * framename：在指定的框架中打开被链接文档。
+     */
+    private String hrefTarget ;
+
+
 
 
     public TheadColumn() {

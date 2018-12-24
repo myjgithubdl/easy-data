@@ -358,13 +358,13 @@ public class ExportExcelCore {
             String cellHeadStyleKey = this.getCellStyleKey(theadColumn, CellStyleType.HEAD);
             if ((theadColumn.getTheadBGColor() != null && theadColumn.getTheadBGColor().trim().replaceAll("#", "").length() == 6)
                     || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
-                    || theadColumn.isTheadBold()
+                    || theadColumn.getTheadFontWeight() != null
                     || theadColumn.getTheadTextAlign() != null
                     || theadColumn.getTheadVerticalAlign() != null) {
 
                 XSSFCellStyle xssfCellStyle = (XSSFCellStyle) sxssfWorkbook.createCellStyle();
 
-                if (theadColumn.isTheadBold()
+                if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
                     XSSFFont font = (XSSFFont) sxssfWorkbook.createFont();
@@ -377,7 +377,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
                     //字体加粗
-                    if (theadColumn.isTheadBold()) {
+                    if (theadColumn.getTheadFontWeight() != null ) {
                         font.setBold(true);
                     }
 
@@ -413,11 +413,11 @@ public class ExportExcelCore {
                     || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getDataTextAlign() != null
                     || theadColumn.getDataVerticalAlign() != null
-                    || theadColumn.isDataBold()) {
+                    || theadColumn.getDataFontWeight() != null ) {
 
                 XSSFCellStyle dataCellStyle = (XSSFCellStyle) sxssfWorkbook.createCellStyle();
 
-                if (theadColumn.isDataBold()
+                if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null
                         && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
@@ -430,7 +430,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
 
-                    if (theadColumn.isDataBold()) {
+                    if (theadColumn.getDataFontWeight() != null) {
                         font.setBold(true);
                     }
                     dataCellStyle.setFont(font);
@@ -533,13 +533,13 @@ public class ExportExcelCore {
             String cellHeadStyleKey = this.getCellStyleKey(theadColumn, CellStyleType.HEAD);
             if ((theadColumn.getTheadBGColor() != null && theadColumn.getTheadBGColor().trim().replaceAll("#", "").length() == 6)
                     || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
-                    || theadColumn.isTheadBold()
+                    || theadColumn.getTheadFontWeight() != null
                     || theadColumn.getTheadTextAlign() != null
                     || theadColumn.getTheadVerticalAlign() != null) {
 
                 XSSFCellStyle xssfCellStyle = xssfWorkbook.createCellStyle();
 
-                if (theadColumn.isTheadBold()
+                if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
                     XSSFFont font = xssfWorkbook.createFont();
@@ -552,7 +552,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
                     //字体加粗
-                    if (theadColumn.isTheadBold()) {
+                    if (theadColumn.getTheadFontWeight() != null ) {
                         font.setBold(true);
                     }
 
@@ -588,11 +588,11 @@ public class ExportExcelCore {
                     || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getDataTextAlign() != null
                     || theadColumn.getDataVerticalAlign() != null
-                    || theadColumn.isDataBold()) {
+                    || theadColumn.getDataFontWeight() != null) {
 
                 XSSFCellStyle dataCellStyle = xssfWorkbook.createCellStyle();
 
-                if (theadColumn.isDataBold()
+                if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null
                         && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
@@ -605,7 +605,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
 
-                    if (theadColumn.isDataBold()) {
+                    if (theadColumn.getDataFontWeight() != null) {
                         font.setBold(true);
                     }
                     dataCellStyle.setFont(font);
@@ -714,11 +714,11 @@ public class ExportExcelCore {
                     || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getTheadTextAlign() != null
                     || theadColumn.getTheadVerticalAlign() != null
-                    || theadColumn.isTheadBold()) {
+                    || theadColumn.getTheadFontWeight()!= null ) {
 
                 HSSFCellStyle headCellStyle = hssfWorkbook.createCellStyle();
 
-                if (theadColumn.isTheadBold()
+                if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
                     HSSFFont font = hssfWorkbook.createFont();
@@ -734,7 +734,7 @@ public class ExportExcelCore {
                     }
 
 
-                    if (theadColumn.isTheadBold()) {
+                    if (theadColumn.getTheadFontWeight()!= null) {
                         font.setBold(true);
                     }
                     headCellStyle.setFont(font);
@@ -770,10 +770,10 @@ public class ExportExcelCore {
                     || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getDataTextAlign() != null
                     || theadColumn.getDataVerticalAlign() != null
-                    || theadColumn.isDataBold()) {
+                    || theadColumn.getDataFontWeight() != null) {
                 CellStyle dataStyle = hssfWorkbook.createCellStyle();
 
-                if (theadColumn.isDataBold()
+                if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                         ) {
                     Font font = hssfWorkbook.createFont();
@@ -789,7 +789,7 @@ public class ExportExcelCore {
                         colorIndex++;
                     }
 
-                    if (theadColumn.isDataBold()) {
+                    if (theadColumn.getDataFontWeight() != null) {
                         font.setBold(true);
                     }
                     dataStyle.setFont(font);
