@@ -56,8 +56,7 @@ public class MySQLData {
         //表头
         TheadColumn provinceTheadColumn=new TheadColumn("province" , null ,"province","省份" );
         provinceTheadColumn.setDownMergeCells(true);//向下合并单元格值相同的列
-        provinceTheadColumn.setTheadTextAlign(TextHorizontalAlignment.RIGHT);
-        provinceTheadColumn.setColumnWidth(200.0);
+
         /*provinceTheadColumn.setTheadFontWeight("800");
         provinceTheadColumn.setTheadBGColor("#FF0000");
         provinceTheadColumn.setTheadFontColor("#CCCCCC");
@@ -78,7 +77,6 @@ public class MySQLData {
         TheadColumn pm10TheadColumn=new TheadColumn("pm10" , null ,"pm10","pm10" );
 
         TheadColumn yhwTheadColumn=new TheadColumn("yhw" , null ,null,"氧化物" );
-        yhwTheadColumn.setTheadTextAlign(TextHorizontalAlignment.CENTER);//文字居中对齐
 
         TheadColumn so2TheadColumn=new TheadColumn("so2" , "yhw" ,"so2","二氧化硫" );
         TheadColumn coTheadColumn=new TheadColumn("co" , "yhw" ,"co","一氧化碳" );

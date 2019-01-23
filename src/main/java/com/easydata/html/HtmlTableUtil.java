@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * 将数据转化为HTML的table标签
  */
-public class TableUtil {
+public class HtmlTableUtil {
 
     public static String getHtmlTable(List<TheadColumn> theadColumnList, List<Map<String, Object>> dataList) {
         if (theadColumnList == null || theadColumnList.size() == 0) {
@@ -83,15 +83,12 @@ public class TableUtil {
                     String text = theadColumnTree.getText();
 
                     //设置对齐方式  align
-                    if (theadColumnTree.getTheadTextAlign() != null
-                            && theadColumnTree.getTheadTextAlign().getText().length() > 0) {
-                        if (theadColumnTree.getTheadTextAlign() == TextHorizontalAlignment.CENTER) {
-                            htmlSbTheadTh.append("align=\"center\" ");
-                        } else if (theadColumnTree.getTheadTextAlign() == TextHorizontalAlignment.LEFT) {
-                            htmlSbTheadTh.append("align=\"left\" ");
-                        } else if (theadColumnTree.getTheadTextAlign() == TextHorizontalAlignment.RIGHT) {
-                            htmlSbTheadTh.append("align=\"right\" ");
-                        }
+                    if (TextHorizontalAlignment.CENTER.getText().equals(theadColumnTree.getTheadTextAlign())) {
+                        htmlSbTheadTh.append("align=\"center\" ");
+                    } else if (TextHorizontalAlignment.LEFT.getText().equals(theadColumnTree.getTheadTextAlign())) {
+                        htmlSbTheadTh.append("align=\"left\" ");
+                    } else if (TextHorizontalAlignment.RIGHT.getText().equals(theadColumnTree.getTheadTextAlign())) {
+                        htmlSbTheadTh.append("align=\"right\" ");
                     }
 
                     //设置跨行
@@ -191,15 +188,12 @@ public class TableUtil {
                     Object text = dataColumnTree.getValue() == null ? "" : dataColumnTree.getValue();
 
                     //设置对齐方式  align
-                    if (theadColumnTree.getDataTextAlign() != null
-                            && theadColumnTree.getDataTextAlign().getText().length() > 0) {
-                        if (theadColumnTree.getDataTextAlign() == TextHorizontalAlignment.CENTER) {
-                            htmlSbTheadTh.append("align=\"center\" ");
-                        } else if (theadColumnTree.getDataTextAlign() == TextHorizontalAlignment.LEFT) {
-                            htmlSbTheadTh.append("align=\"left\" ");
-                        } else if (theadColumnTree.getDataTextAlign() == TextHorizontalAlignment.RIGHT) {
-                            htmlSbTheadTh.append("align=\"right\" ");
-                        }
+                    if (TextHorizontalAlignment.CENTER.getText().equals(theadColumnTree.getDataTextAlign())) {
+                        htmlSbTheadTh.append("align=\"center\" ");
+                    } else if (TextHorizontalAlignment.LEFT.getText().equals(theadColumnTree.getDataTextAlign())) {
+                        htmlSbTheadTh.append("align=\"left\" ");
+                    } else if (TextHorizontalAlignment.RIGHT.getText().equals(theadColumnTree.getDataTextAlign())) {
+                        htmlSbTheadTh.append("align=\"right\" ");
                     }
 
                     //设置跨行

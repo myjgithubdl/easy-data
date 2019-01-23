@@ -1,7 +1,7 @@
 package com.easydate.test;
 
 import com.easydata.head.TheadColumn;
-import com.easydata.html.TableUtil;
+import com.easydata.html.HtmlTableUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public class TableTest {
         //表头列表
         List<TheadColumn> theadColumnList = MySQLData.getTheadColumnList();
 
-        String table=TableUtil.getHtmlTable(theadColumnList ,dataList );
+        String table=HtmlTableUtil.getHtmlTable(theadColumnList ,dataList );
         System.out.println(table);
     }
 

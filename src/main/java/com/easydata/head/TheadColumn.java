@@ -4,9 +4,6 @@ package com.easydata.head;
  * Created by MYJ on 2017/6/9.
  */
 
-import com.easydata.enmus.DataType;
-import com.easydata.enmus.TextHorizontalAlignment;
-import com.easydata.enmus.TextVerticalAlignment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +39,12 @@ public class TheadColumn {
     private Object defaultValue;
 
     /**
+     * 元数据列类型，0：普通列，1：布局列，2：维度列,3：统计列
+     */
+    private String metaColumnType;
+
+
+    /**
      * 精度
      * 用于double类型的数值保留小数位数
      */
@@ -50,12 +53,13 @@ public class TheadColumn {
     /**
      * 数据类型
      */
-    private DataType dataType;
+    //private DataType dataType;
+    private String dataType;
 
     /**
      * 是否隐藏
      */
-    private boolean isHidden = false;
+    private boolean hidden = false;
 
     /**
      * 如果列值相与下一列值相等，是否向下合并单元格
@@ -65,12 +69,12 @@ public class TheadColumn {
     /**
      * 列宽度
      */
-    private Double columnWidth;
+    private Integer columnWidth;
 
     /**
      * 表头行高度
      */
-    private Double theadRowHeight;
+    private Integer theadRowHeight;
 
     /**
      * 数据行高度
@@ -101,23 +105,27 @@ public class TheadColumn {
      * 表头部分对齐方式
      * left,center,right
      */
-    private TextHorizontalAlignment theadTextAlign;
+    //private TextHorizontalAlignment theadTextAlign;
+    private String theadTextAlign;
 
     /**
      * 数据部分列对齐方式
      * left,center,right
      */
-    private TextHorizontalAlignment dataTextAlign;
+    //private TextHorizontalAlignment dataTextAlign;
+    private String dataTextAlign;
 
     /**
      * 表头文字的垂直对齐
      */
-    private TextVerticalAlignment theadVerticalAlign;
+    //private TextVerticalAlignment theadVerticalAlign;
+    private String theadVerticalAlign;
 
     /**
      * 数据文字的垂直对齐
      */
-    private TextVerticalAlignment dataVerticalAlign;
+    //private TextVerticalAlignment dataVerticalAlign;
+    private String dataVerticalAlign;
 
     /**
      * 表头是否加粗
@@ -129,23 +137,13 @@ public class TheadColumn {
      */
     private String dataFontWeight;
 
-    /**
-     * 是否在统计值
-     */
-    private boolean isStatistics;
-
-
-    /**
-     * 统计行的位置  top:顶部，bottom：底部
-     */
-    private String statisticsRowPosition;
 
     /**
      * （一般是生成HTML时有效）
      * 列的连接地址  支持${paramName}或#{paramName}写法，会用该数据航的值替代
      * 如：https://www.baidu.com?name=${name}&v=${version}
      */
-    private String href ;
+    private String href;
 
 
     /**
@@ -157,9 +155,13 @@ public class TheadColumn {
      * _top：在整个窗口中打开被链接文档。
      * framename：在指定的框架中打开被链接文档。
      */
-    private String hrefTarget ;
+    private String hrefTarget;
 
 
+    /**
+     * 列是否支持排序
+     */
+    private boolean sort;
 
 
     public TheadColumn() {
@@ -173,17 +175,17 @@ public class TheadColumn {
     }
 
 
-    public TheadColumn(String id, String pid, String name, String text, DataType dataType, boolean isHidden, boolean downMergeCells) {
+    public TheadColumn(String id, String pid, String name, String text, String dataType, boolean hidden, boolean downMergeCells) {
         this.id = id;
         this.pid = pid;
         this.name = name;
         this.text = text;
         this.dataType = dataType;
-        this.isHidden = isHidden;
+        this.hidden = hidden;
         this.downMergeCells = downMergeCells;
     }
 
-    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer precision, DataType dataType, boolean isHidden, boolean downMergeCells) {
+    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer precision, String dataType, boolean hidden, boolean downMergeCells) {
         this.id = id;
         this.pid = pid;
         this.name = name;
@@ -191,11 +193,11 @@ public class TheadColumn {
         this.defaultValue = defaultValue;
         this.precision = precision;
         this.dataType = dataType;
-        this.isHidden = isHidden;
+        this.hidden = hidden;
         this.downMergeCells = downMergeCells;
     }
 
-    public TheadColumn(String id, String pid, String name, String text, boolean downMergeCells, TextHorizontalAlignment theadTextAlign, TextHorizontalAlignment dataTextAlign, TextVerticalAlignment theadVerticalAlign, TextVerticalAlignment dataVerticalAlign) {
+    public TheadColumn(String id, String pid, String name, String text, boolean downMergeCells, String theadTextAlign, String dataTextAlign, String theadVerticalAlign, String dataVerticalAlign) {
         this.id = id;
         this.pid = pid;
         this.name = name;

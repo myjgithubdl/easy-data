@@ -59,6 +59,7 @@ public class PivotTableDataUtil {
                                                    List<TheadColumn> theadColumnList,
                                                    List<Map<String, Object>> dataList,
                                                    String fileName,
+                                                   String charsetName,
                                                    HttpServletResponse response) {
         PivotTableDataCore pivotTableData = PivotTableDataUtil.getPivotTableData(rows, cols, calCols, theadColumnList, dataList);
 
@@ -66,7 +67,7 @@ public class PivotTableDataUtil {
         List<Map<String, Object>> pivotTableDataList = pivotTableData.getPivotTableDataList();
 
 
-        ExportCSVUtil.exportCSV(response, fileName, pivotTableTheadColumnList, pivotTableDataList);
+        ExportCSVUtil.exportCSV(response, fileName, charsetName, pivotTableTheadColumnList, pivotTableDataList);
 
     }
 
@@ -122,6 +123,7 @@ public class PivotTableDataUtil {
 
     /**
      * 导出excel（适用于http）
+     *
      * @param rows
      * @param cols
      * @param calCols

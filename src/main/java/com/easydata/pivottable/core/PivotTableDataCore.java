@@ -1,5 +1,6 @@
 package com.easydata.pivottable.core;
 
+import com.alibaba.fastjson.JSONObject;
 import com.easydata.constant.Constant;
 import com.easydata.head.TheadColumn;
 import com.easydata.pivottable.domain.PivotTable;
@@ -35,7 +36,6 @@ public class PivotTableDataCore {
     private List<Map<String, Object>> dataList;
 
 
-
     /**
      * 原始表头信息  Map
      */
@@ -53,19 +53,19 @@ public class PivotTableDataCore {
 
 
     /**
-     * 透视表按照设置的行将数据转化为的数据
+     * 透视表按照设置的行将数据转化为的数据，使用LinkedHashMap保证顺序
      * key为所有设置的  列名+Constant.KEY_VALUE_SEPARATOR+列值
      * 如 name:缪应江$sex:男
      */
-    Map<String, List<Map<String, Object>>> groupByRowMap;
+    LinkedHashMap<String, List<Map<String, Object>>> groupByRowMap;
 
     /**
-     * 在根据透视表设置的列转化出新的表头对应的数据
+     * 在根据透视表设置的列转化出新的表头对应的数据，LinkedHashMap保证顺序
      * 外层可key为groupByRowMap重的key
      * 内层key为新转化出的新列名 ， 值为相关的数据
      * 后面的计算都是根据这个值计算
      */
-    Map<String, Map<String, List<Map<String, Object>>>> groupByRowMapNewColCalData = new TreeMap<>();
+    LinkedHashMap<String, Map<String, List<Map<String, Object>>>> groupByRowMapNewColCalData = new LinkedHashMap<>();
 
 
     /**
@@ -116,13 +116,12 @@ public class PivotTableDataCore {
     private void groupByRow() {
         //返回的数据 key为数据部分：字段1+KEY_VALUE_SEPARATOR+字段1对应的值+ITEM_SEPARATOR+字段2+KEY_VALUE_SEPARATOR+字段2对应的值
         List<String> colNameList = this.getPivotTable().getRows();
-        this.groupByRowMap = new TreeMap<>();
+        this.groupByRowMap = new LinkedHashMap<>();
 
         if (colNameList != null && colNameList.size() > 0) {
-
             colNameList.stream().forEach(name -> {
                 for (TheadColumn theadColumn : this.theadColumnList) {
-                    if (name.equals(theadColumn.getId())) {
+                    if (name.equals(theadColumn.getName())) {
                         this.pivotTableTheadColumnList.add(theadColumn);
                         break;
                     }
@@ -164,7 +163,7 @@ public class PivotTableDataCore {
             newColIdSet.add(this.theadColumnMap.get(columnNameList.get(0)).getName());
             this.pivotTableTheadColumnList.add(this.theadColumnMap.get(columnNameList.get(0)));
 
-            Map<String, List<Map<String, Object>>> groupByRowMapData = this.groupByRowMap;
+            LinkedHashMap<String, List<Map<String, Object>>> groupByRowMapData = this.groupByRowMap;
 
             for (String key : groupByRowMapData.keySet()) {
                 List<Map<String, Object>> groupByRowList = groupByRowMapData.get(key);
@@ -183,12 +182,19 @@ public class PivotTableDataCore {
                             id = pid + Constant.ITEM_SEPARATOR + columnName + Constant.KEY_VALUE_SEPARATOR + value;
                         }
 
-                        TheadColumn theadColumn;
+                        TheadColumn theadColumn = JSONObject.parseObject(JSONObject.toJSONString(this.theadColumnMap.get(columnName)), TheadColumn.class);//保证属性与原来的列一致
                         if (colIndex == 0) {
-                            theadColumn = new TheadColumn(id, this.theadColumnMap.get(columnName).getId(), id, value);
+                            //theadColumn = new TheadColumn(id, this.theadColumnMap.get(columnName).getId(), id, value);
+                            theadColumn.setPid(this.theadColumnMap.get(columnName).getId());
                         } else {
-                            theadColumn = new TheadColumn(id, pid, id, value);
+                            //theadColumn = new TheadColumn(id, pid, id, value);
+                            theadColumn.setPid(pid);
                         }
+                        theadColumn.setId(id);
+                        theadColumn.setName(id);
+                        theadColumn.setText(value);
+
+
                         pid = id;
 
                         if (!newColIdSet.contains(id)) {

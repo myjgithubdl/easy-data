@@ -377,7 +377,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
                     //字体加粗
-                    if (theadColumn.getTheadFontWeight() != null ) {
+                    if (theadColumn.getTheadFontWeight() != null) {
                         font.setBold(true);
                     }
 
@@ -413,7 +413,7 @@ public class ExportExcelCore {
                     || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getDataTextAlign() != null
                     || theadColumn.getDataVerticalAlign() != null
-                    || theadColumn.getDataFontWeight() != null ) {
+                    || theadColumn.getDataFontWeight() != null) {
 
                 XSSFCellStyle dataCellStyle = (XSSFCellStyle) sxssfWorkbook.createCellStyle();
 
@@ -552,7 +552,7 @@ public class ExportExcelCore {
                         font.setColor(fontXSSFColor);
                     }
                     //字体加粗
-                    if (theadColumn.getTheadFontWeight() != null ) {
+                    if (theadColumn.getTheadFontWeight() != null) {
                         font.setBold(true);
                     }
 
@@ -714,7 +714,7 @@ public class ExportExcelCore {
                     || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
                     || theadColumn.getTheadTextAlign() != null
                     || theadColumn.getTheadVerticalAlign() != null
-                    || theadColumn.getTheadFontWeight()!= null ) {
+                    || theadColumn.getTheadFontWeight() != null) {
 
                 HSSFCellStyle headCellStyle = hssfWorkbook.createCellStyle();
 
@@ -734,7 +734,7 @@ public class ExportExcelCore {
                     }
 
 
-                    if (theadColumn.getTheadFontWeight()!= null) {
+                    if (theadColumn.getTheadFontWeight() != null) {
                         font.setBold(true);
                     }
                     headCellStyle.setFont(font);
@@ -1099,7 +1099,9 @@ public class ExportExcelCore {
             columnWidth = theadColumnTree.getColumnWidth();
         }
         //其实，这个参数的单位是1/256个字符宽度，也就是说，这里是把B列的宽度设置为了columnWidth个字符。
-        return (short) ((int) (columnWidth * 256.0D));
+        //return (short) ((int) (columnWidth * 256.0D));
+        //return (short) ((int) (columnWidth * 25.60D));
+        return (short) ((int) (columnWidth * 25.60D));
     }
 
     /**
@@ -1137,14 +1139,14 @@ public class ExportExcelCore {
      * @param textHorizontalAlignment
      * @return
      */
-    private HorizontalAlignment getHorizontalAlignment(TextHorizontalAlignment textHorizontalAlignment) {
-        if (TextHorizontalAlignment.LEFT == textHorizontalAlignment) {
+    private HorizontalAlignment getHorizontalAlignment(String textHorizontalAlignment) {
+        if (TextHorizontalAlignment.LEFT.getText().equals(textHorizontalAlignment)) {
             return HorizontalAlignment.LEFT;
-        } else if (TextHorizontalAlignment.CENTER == textHorizontalAlignment) {
+        } else if (TextHorizontalAlignment.CENTER.getText().equals(textHorizontalAlignment)) {
             return HorizontalAlignment.CENTER;
-        } else if (TextHorizontalAlignment.RIGHT == textHorizontalAlignment) {
+        } else if (TextHorizontalAlignment.RIGHT.getText().equals(textHorizontalAlignment)) {
             return HorizontalAlignment.RIGHT;
-        } else if (TextHorizontalAlignment.GENERAL == textHorizontalAlignment) {
+        } else if (TextHorizontalAlignment.GENERAL.getText().equals(textHorizontalAlignment)) {
             return HorizontalAlignment.GENERAL;
         }
         return HorizontalAlignment.GENERAL;
@@ -1156,12 +1158,12 @@ public class ExportExcelCore {
      * @param textVerticalAlignment
      * @return
      */
-    private VerticalAlignment getVerticalAlignment(TextVerticalAlignment textVerticalAlignment) {
-        if (TextVerticalAlignment.TOP == textVerticalAlignment) {
+    private VerticalAlignment getVerticalAlignment(String textVerticalAlignment) {
+        if (TextVerticalAlignment.TOP.getText().equals(textVerticalAlignment)) {
             return VerticalAlignment.TOP;
-        } else if (TextVerticalAlignment.BOTTOM == textVerticalAlignment) {
+        } else if (TextVerticalAlignment.BOTTOM.getText().equals(textVerticalAlignment)) {
             return VerticalAlignment.BOTTOM;
-        } else if (TextVerticalAlignment.CENTER == textVerticalAlignment) {
+        } else if (TextVerticalAlignment.CENTER.getText().equals(textVerticalAlignment)) {
             return VerticalAlignment.CENTER;
         }
         return VerticalAlignment.CENTER;

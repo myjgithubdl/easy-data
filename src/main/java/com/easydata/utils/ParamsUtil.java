@@ -1,7 +1,5 @@
 package com.easydata.utils;
 
-import com.sun.corba.se.impl.orbutil.CorbaResourceUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

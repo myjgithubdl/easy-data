@@ -17,6 +17,16 @@ import java.util.Map;
  */
 public class ExportCSVUtil {
 
+    /**
+     * 导出CSV
+     *
+     * @param response
+     * @param fileName
+     * @param exportCSVParams
+     */
+    public static void exportCSV(HttpServletResponse response, String fileName, ExportCSVParams exportCSVParams) {
+        exportCSV(response, fileName, exportCSVParams.getCharsetName(), exportCSVParams.getTheadColumnList(), exportCSVParams.getDataList());
+    }
 
     /**
      * 适用于web上导出
@@ -26,9 +36,9 @@ public class ExportCSVUtil {
      * @param theadColumnList
      * @param dataList
      */
-    public static void exportCSV(HttpServletResponse response, String fileName, List<TheadColumn> theadColumnList, List<Map<String, Object>> dataList) {
+    public static void exportCSV(HttpServletResponse response, String fileName, String
+            charsetName, List<TheadColumn> theadColumnList, List<Map<String, Object>> dataList) {
 
-        String charsetName = null;
         fileName = fileName == null ? "导出文件" : fileName.replaceAll(" ", "");
         try (OutputStream out = response.getOutputStream()) {
             fileName = new String(fileName.getBytes(), "ISO8859-1") + ".csv";
@@ -64,7 +74,8 @@ public class ExportCSVUtil {
      * @param theadColumnList
      * @param dataList
      */
-    public static void exportCSV(OutputStream out, List<TheadColumn> theadColumnList, List<Map<String, Object>> dataList) {
+    public static void exportCSV(OutputStream
+                                         out, List<TheadColumn> theadColumnList, List<Map<String, Object>> dataList) {
 
         ExportCSVParams exportCSVParams = new ExportCSVParams(theadColumnList, dataList);
 

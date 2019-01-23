@@ -3,6 +3,7 @@ package com.easydata.utils;
 import com.easydata.head.TheadColumn;
 import com.easydata.pivottable.enmus.AggFunc;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,9 @@ public class ValueUtil {
 
     public static String getValueStr(TheadColumn theadColumn, Object value) {
         if (value == null) {
+            if (theadColumn.getDefaultValue() != null) {
+                return theadColumn.getDefaultValue().toString();
+            }
             return null;
         }
 
@@ -42,8 +46,11 @@ public class ValueUtil {
             } else {
                 return String.format("%." + precision + "f", value);
             }
+        } else if (value instanceof Date) {
+            return value.toString();
         }
-        return null;
+
+        return value.toString();
     }
 
     /**
@@ -77,6 +84,7 @@ public class ValueUtil {
 
     /**
      * 根据计算函数计算dataList中theadColumn列的值
+     *
      * @param theadColumn
      * @param aggFunc
      * @param dataList

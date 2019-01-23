@@ -10,6 +10,9 @@ public class Test {
         System.out.println(avg+"");
         System.out.println(avg.getText());
 
+
+        System.out.println(AggFunc.getAggFunc("MIN"));
+
     }
 
 

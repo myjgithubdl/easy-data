@@ -1,8 +1,5 @@
 package com.easydata.pivottable.enmus;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 透视表选择的列计算函数
  */
@@ -37,7 +34,7 @@ public enum AggFunc {
     private String text;
 
 
-    private AggFunc(String text) {
+    AggFunc(String text) {
         this.text = text;
     }
 
@@ -50,4 +47,21 @@ public enum AggFunc {
     public void setText(String text) {
         this.text = text;
     }
+
+    public static AggFunc getAggFunc(String fun) {
+        if (AggFunc.SUM.toString().equals(fun)) {
+            return AggFunc.SUM;
+        } else if (AggFunc.COUNT.toString().equals(fun)) {
+            return AggFunc.COUNT;
+        } else if (AggFunc.AVG.toString().equals(fun)) {
+            return AggFunc.AVG;
+        } else if (AggFunc.MAX.toString().equals(fun)) {
+            return AggFunc.MAX;
+        } else if (AggFunc.MIN.toString().equals(fun)) {
+            return AggFunc.MIN;
+        }
+
+        return AggFunc.SUM;
+    }
+
 }
