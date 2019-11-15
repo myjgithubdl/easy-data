@@ -194,7 +194,6 @@ public class PivotTableDataCore {
                         theadColumn.setName(id);
                         theadColumn.setText(value);
 
-
                         pid = id;
 
                         if (!newColIdSet.contains(id)) {

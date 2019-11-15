@@ -2,6 +2,7 @@ package com.easydata.utils;
 
 import com.easydata.head.TheadColumn;
 import com.easydata.pivottable.enmus.AggFunc;
+import org.apache.commons.collections4.MapUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -119,11 +120,7 @@ public class ValueUtil {
         }
         Double sumValue = 0D;
         for (Map<String, Object> rowMap : dataList) {
-            Object v = rowMap.get(name);
-            if (v == null) {
-                continue;
-            }
-            sumValue += Double.valueOf(v.toString());
+            sumValue += MapUtils.getDoubleValue(rowMap, name, 0d);
         }
         return sumValue;
     }
@@ -165,11 +162,7 @@ public class ValueUtil {
         Double maxValue = null;
         Double value;
         for (Map<String, Object> rowMap : dataList) {
-            Object v = rowMap.get(name);
-            if (v == null) {
-                continue;
-            }
-            value = Double.valueOf(v.toString());
+            value=MapUtils.getDoubleValue(rowMap, name, 0d);
             if (maxValue == null) {
                 maxValue = value;
             } else {
@@ -191,11 +184,7 @@ public class ValueUtil {
         Double minValue = null;
         Double value;
         for (Map<String, Object> rowMap : dataList) {
-            Object v = rowMap.get(name);
-            if (v == null) {
-                continue;
-            }
-            value = Double.valueOf(v.toString());
+            value=MapUtils.getDoubleValue(rowMap, name, 0d);
             if (minValue == null) {
                 minValue = value;
             } else {
@@ -217,11 +206,7 @@ public class ValueUtil {
         Double productValue = null;
         Double value;
         for (Map<String, Object> rowMap : dataList) {
-            Object v = rowMap.get(name);
-            if (v == null) {
-                continue;
-            }
-            value = Double.valueOf(v.toString());
+            value=MapUtils.getDoubleValue(rowMap, name, 0d);
             if (productValue == null) {
                 productValue = value;
             } else {

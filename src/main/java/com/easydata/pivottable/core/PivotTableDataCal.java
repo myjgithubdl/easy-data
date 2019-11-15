@@ -163,7 +163,6 @@ public class PivotTableDataCal {
 
                 //透视表行转化出来的列
                 for (String columnName : columnList) {
-
                     if (AggFunc.SUM.equals(aggfunc)) {//汇总
                         getCalcColumnSum(dataList, calResult, columnName, rowTraColName, calcColumnName);
                     } else if (AggFunc.COUNT.equals(aggfunc)) {
@@ -379,7 +378,6 @@ public class PivotTableDataCal {
                                         String rowTraColName,
                                         String calcColumnName) {
         for (Map<String, Object> map : dataList) {
-
             Double value = 0d;
             //通过透视表设置的列的值转化为新的透视表列名与设置的透视表列名对应的值相对
             if (map.get(rowTraColName) != null && columnName.equals(map.get(rowTraColName).toString())) {
