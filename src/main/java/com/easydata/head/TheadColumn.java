@@ -41,14 +41,23 @@ public class TheadColumn {
     /**
      * 元数据列类型，0：普通列，1：布局列，2：维度列,3：统计列
      */
-    private String metaColumnType;
+    private String type;
 
 
     /**
      * 精度
      * 用于double类型的数值保留小数位数
      */
-    private Integer precision;
+    private Integer decimals;
+    /**
+     * 显示精度
+     */
+    private Integer showDecimals;
+
+    /**
+     * 导出精度
+     */
+    private Integer exportDecimals;
 
     /**
      * 数据类型
@@ -69,7 +78,7 @@ public class TheadColumn {
     /**
      * 列宽度
      */
-    private Integer columnWidth;
+    private Integer width;
 
     /**
      * 表头行高度
@@ -185,13 +194,13 @@ public class TheadColumn {
         this.downMergeCells = downMergeCells;
     }
 
-    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer precision, String dataType, boolean hidden, boolean downMergeCells) {
+    public TheadColumn(String id, String pid, String name, String text, Object defaultValue, Integer decimals, String dataType, boolean hidden, boolean downMergeCells) {
         this.id = id;
         this.pid = pid;
         this.name = name;
         this.text = text;
         this.defaultValue = defaultValue;
-        this.precision = precision;
+        this.decimals = decimals;
         this.dataType = dataType;
         this.hidden = hidden;
         this.downMergeCells = downMergeCells;

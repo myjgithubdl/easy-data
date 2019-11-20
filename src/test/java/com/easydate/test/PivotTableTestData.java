@@ -80,11 +80,11 @@ public class PivotTableTestData {
         TheadColumn mobFlag = new TheadColumn("mob_flag", null, "mob_flag", "发放后第几个月");
         TheadColumn theadColumn3 = new TheadColumn("mx", null, "mx", "逾期阶段");
         TheadColumn value = new TheadColumn("value", null, "value", "本金余额");
-        value.setPrecision(0);
+        value.setDecimals(0);
         value.setDefaultValue(0);
 
         TheadColumn cnt = new TheadColumn("cnt", null, "cnt", "合同笔数");
-        cnt.setPrecision(0);
+        cnt.setDecimals(0);
         cnt.setDefaultValue(0);
 
         theadColumnList.add(theadColumn1);

@@ -1,10 +1,8 @@
 package com.easydata.export.excel;
 
-import com.alibaba.fastjson.JSONObject;
-import com.easydata.head.TheadColumn;
 import com.easydata.enmus.ExcelType;
-import lombok.Getter;
-import lombok.Setter;
+import com.easydata.head.TheadColumn;
+import lombok.*;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +12,9 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExportExcelParams {
 
     /**
@@ -25,6 +26,11 @@ public class ExportExcelParams {
      * 导出Excel的类型
      */
     private ExcelType type=ExcelType.XSSF;
+
+    /**
+     * 是否设置Excel样式
+     */
+    private boolean isSetCellStyle=false;
 
 
     /**

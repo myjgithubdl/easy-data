@@ -41,7 +41,7 @@ public class ValueUtil {
         } else if (value instanceof Integer) {
             return value.toString();
         } else if (value instanceof Double) {
-            Integer precision = theadColumn.getPrecision();
+            Integer precision = theadColumn.getDecimals();
             if (precision == null) {
                 return String.format("%.2f", value);
             } else {

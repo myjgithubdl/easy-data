@@ -4,10 +4,15 @@ package com.easydata.export;
  * Created by MYJ on 2017/6/14.
  */
 
+import com.easydata.enmus.ExcelType;
 import com.easydata.export.excel.ExportExcelCore;
 import com.easydata.export.excel.ExportExcelParams;
 import com.easydata.head.TheadColumn;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +34,7 @@ public class ExportExcelUtil {
      */
     public static Workbook exportExcel(ExportExcelParams exportParams) {
         ExportExcelCore exportExcelCore = new ExportExcelCore(exportParams);
-        Workbook workbook = exportExcelCore.getWorkbook();
+        Workbook workbook = exportExcelCore.getWorkbookAndWriteData();
         return workbook;
     }
 
@@ -41,8 +46,9 @@ public class ExportExcelUtil {
      */
     public static void exportExcel(HttpServletResponse response, String fileName,
                                    ExportExcelParams exportParams) {
-        if (exportParams.getTheadColumnList() == null || exportParams.getTheadColumnList().size() < 1)
+        if (exportParams.getTheadColumnList() == null || exportParams.getTheadColumnList().size() < 1) {
             return;
+        }
 
         fileName = fileName == null ? "导出文件" : fileName.replaceAll(" ", "");
         try (OutputStream out = response.getOutputStream()) {
@@ -57,6 +63,39 @@ public class ExportExcelUtil {
             response.addCookie(fileDownload);
 
             Workbook workbook = exportExcel(exportParams);
+            workbook.write(out);
+            out.flush();
+            out.close();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static void exportExcel(HttpServletResponse response, String fileName,
+                                   List<ExportExcelParams> exportExcelParamsList) {
+        if (exportExcelParamsList == null || CollectionUtils.isEmpty(exportExcelParamsList)) {
+            return;
+        }
+        try (OutputStream out = response.getOutputStream()) {
+            Workbook workbook = new SXSSFWorkbook();
+
+            for (ExportExcelParams exportExcelParams : exportExcelParamsList) {
+                ExportExcelCore exportExcelCore = new ExportExcelCore(exportExcelParams);
+                exportExcelCore.createSheet(workbook);
+            }
+
+            fileName = fileName == null ? "导出文件" : fileName.replaceAll(" ", "");
+
+            fileName = new String(fileName.getBytes(), "ISO8859-1") + ".xlsx";
+            response.reset();
+            response.setHeader("Content-Disposition", String.format("attachment; filename=%s", fileName));
+            response.setContentType("application/vnd.ms-excel; charset=UTF-8");
+            response.addCookie(new Cookie("fileDownload", "true"));
+
+            Cookie fileDownload = new Cookie("fileDownload", "true");
+            fileDownload.setPath("/");
+            response.addCookie(fileDownload);
+
             workbook.write(out);
             out.flush();
             out.close();
@@ -95,11 +134,11 @@ public class ExportExcelUtil {
     public static void exportExcel(OutputStream out,
                                    String sheetName,
                                    List<TheadColumn> theadColumnList,
-                                   List<Map<String,Object>> dataList) {
-        ExportExcelParams exportParams =new ExportExcelParams();
+                                   List<Map<String, Object>> dataList) {
+        ExportExcelParams exportParams = new ExportExcelParams();
         exportParams.setTheadColumnList(theadColumnList);
         exportParams.setDataList(dataList);
         exportParams.setSheetName(sheetName);
-        ExportExcelUtil.exportExcel(out , exportParams);
+        ExportExcelUtil.exportExcel(out, exportParams);
     }
 }

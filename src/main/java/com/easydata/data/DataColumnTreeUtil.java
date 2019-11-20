@@ -177,7 +177,8 @@ public class DataColumnTreeUtil {
         }
         List<DataColumnBlock> dataColumnBlocks2=new ArrayList<>();
         Integer celIndex = theadColumnTree.getCelIndex();
-        int rowspan = 1;//跨行数
+        //跨行数
+        int rowspan = 1;
         int startRowspanIndex=startRowIndex;
         for (int i = startRowIndex; i <= endRowIndex; i++) {
             Object value1 = this.returnList.get(i).get(celIndex).getValue();
@@ -185,10 +186,13 @@ public class DataColumnTreeUtil {
             if (i != endRowIndex) {
                 value2 = this.returnList.get(i + 1).get(celIndex).getValue();
             }
-            if (value1.equals(value2)) {//等于下一行同列的值
+            //等于下一行同列的值
+            if (value1.equals(value2)) {
                 rowspan += 1;
                 this.returnList.get(i + 1).get(celIndex).setHidden(true);
-            } else {//与下一行同列的值不等
+            }
+            //与下一行同列的值不等
+            else {
                 //存在值相同的列，转为横向处理
                 if (rowspan > 1) {
                     this.returnList.get(startRowspanIndex).get(celIndex).setRowspan(rowspan);
@@ -197,7 +201,8 @@ public class DataColumnTreeUtil {
                     dataColumnBlocks2.add(dataColumnBlock);
                 }
                 startRowspanIndex= i + 1;
-                rowspan = 1;//跨行数
+                //跨行数
+                rowspan = 1;
             }
         }
         return dataColumnBlocks2;
@@ -211,7 +216,9 @@ public class DataColumnTreeUtil {
      */
     public Object getDataColumnValue( Map<String, Object> map , TheadColumnTree theadColumnTree ){
         Object value=null;
-        if(theadColumnTree == null || theadColumnTree.getName() == null ) return value;
+        if(theadColumnTree == null || theadColumnTree.getName() == null ) {
+            return value;
+        }
 
         if(map == null){
             return theadColumnTree.getDefaultValue();
@@ -221,12 +228,17 @@ public class DataColumnTreeUtil {
             if(value != null ){
                 if(value instanceof String){
 
-                }else if(value instanceof Integer){//防止科学计数
+                }
+                //防止科学计数
+                else if(value instanceof Integer){
                     nf.setGroupingUsed(false);
                     value=nf.format(value);
-                }else if(value instanceof Double){//防止科学计数
-                    if(theadColumnTree.getPrecision() != null ){//有精度，采用科学计数法
-                        value=String.format("%."+theadColumnTree.getPrecision()+"f", value);
+                }
+                //防止科学计数
+                else if(value instanceof Double){
+                    //有精度，采用科学计数法
+                    if(theadColumnTree.getDecimals() != null ){
+                        value=String.format("%."+theadColumnTree.getDecimals()+"f", value);
                     }else{
                         nf.setGroupingUsed(false);
                         value=nf.format(value);
@@ -234,7 +246,6 @@ public class DataColumnTreeUtil {
                 }
             }
         }
-
         return value;
     }
 

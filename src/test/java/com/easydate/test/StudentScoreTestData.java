@@ -47,7 +47,7 @@ public class StudentScoreTestData {
         TheadColumn student_name = new TheadColumn("student_name", null, "student_name", "姓名");
         TheadColumn course = new TheadColumn("course", null, "course", "课程");
         TheadColumn score = new TheadColumn("score", null, "score", "成绩");
-        score.setPrecision(0);
+        score.setDecimals(0);
 
         theadColumnList.add(year);
         theadColumnList.add(semester);

@@ -267,8 +267,8 @@ public class HtmlTableUtil {
      */
     public static String getColumnWidth(TheadColumnTree theadColumnTree) {
         String columnWidth = "";
-        if (theadColumnTree.getColumnWidth() != null && theadColumnTree.getColumnWidth() > 0) {
-            columnWidth = Integer.parseInt(new java.text.DecimalFormat("0").format(theadColumnTree.getColumnWidth())) + "px";
+        if (theadColumnTree.getWidth() != null && theadColumnTree.getWidth() > 0) {
+            columnWidth = Integer.parseInt(new java.text.DecimalFormat("0").format(theadColumnTree.getWidth())) + "px";
 
         }
         //其实，这个参数的单位是1/256个字符宽度，也就是说，这里是把B列的宽度设置为了columnWidth个字符。

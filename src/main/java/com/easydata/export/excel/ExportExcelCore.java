@@ -72,14 +72,15 @@ public class ExportExcelCore {
         this.exporExcelParams = exporExcelParams;
         this.theadColumns = exporExcelParams.getTheadColumnList();
         this.dataList = exporExcelParams.getDataList();
+
+        this.resetTheadColumn();
+
     }
 
     /**
-     * 根据设置的Excel对象取得Workbook对象
-     *
-     * @return
+     * 将数据转化为导出的格式
      */
-    public Workbook getWorkbook() {
+    private void resetTheadColumn() {
         if (this.theadColumns == null || theadColumns.size() < 1) {
             throw new ExcelExportException("Excel导出的表头信息不能为空！");
         }
@@ -101,24 +102,34 @@ public class ExportExcelCore {
         if (this.dataList != null && this.dataList.size() > 0) {
             LOGGER.info("开始计算Excel的数据部分 ");
             startTime1 = System.currentTimeMillis();
-            //如果是SXSSFWorkbook的实例，不合并行和列，因为该对象会持久化数据到磁盘
-            //if(workbook instanceof  SXSSFWorkbook){
-            // for(TheadColumnTree theadColumnTree : lastRowTheadColumns){
-            //     theadColumnTree.setDownMergeCells(false);
-            // }
-            //}
             //转换导出数据
             this.exportDataColumnLists = DataColumnTreeUtil.getExportFormatDataList(lastRowTheadColumns, this.dataList);
             LOGGER.info("结束计算Excel的数据部分，耗时：" + (System.currentTimeMillis() - startTime1) + "毫秒。");
         } else {
             LOGGER.info("导出数据部分为空！");
         }
+    }
+
+    /**
+     * 根据设置的Excel对象取得Workbook对象
+     *
+     * @return
+     */
+    public Workbook getWorkbookAndWriteData() {
+
+
 
         Workbook workbook = ExcelType.HSSF.equals(this.exporExcelParams.getType()) ?
                 new HSSFWorkbook() : (this.dataList.size() <= 200000 ? new XSSFWorkbook() :
                 new SXSSFWorkbook(5000));
+
         this.createSheet(workbook);
 
+        return workbook;
+    }
+
+    public Workbook createSheetAndWriteData(Workbook workbook) {
+        this.createSheet(workbook);
         return workbook;
     }
 
@@ -167,15 +178,15 @@ public class ExportExcelCore {
                     Cell cell = row.createCell(celIndex);
                     cell.setCellValue(text);
 
+
                     CellStyle cellStyle = allCellStyleMap.get(getCellStyleKey(theadColumnTree, CellStyleType.HEAD));
                     cell.setCellStyle(cellStyle);
 
-                    //设置跨行
-                    if (rowspan > 1) { //合并行
+                    //设置跨行 合并行
+                    if (rowspan > 1) {
                         CellRangeAddress cellRangeAddress = new CellRangeAddress(rowIndex, rowIndex + rowspan - 1, celIndex, celIndex);
                         sheet.addMergedRegion(cellRangeAddress);
-                        this.setRegionStyle(workbook, sheet, cellRangeAddress, cellStyle, text);
-                        //this.cellRangeAddressList.add(cellRangeAddress);
+                        setRegionStyle(workbook, sheet, cellRangeAddress, cellStyle, text);
                     }
 
                     //设置合并列
@@ -305,8 +316,9 @@ public class ExportExcelCore {
     public static void setRegionStyle(Workbook workbook, Sheet sheet, CellRangeAddress region, CellStyle cs, String cellValue) {
         for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
             Row row = sheet.getRow(i);
-            if (row == null)
+            if (row == null){
                 row = sheet.createRow(i);
+            }
             for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
                 Cell cell = row.getCell(j);
                 if (cell == null) {
@@ -366,7 +378,7 @@ public class ExportExcelCore {
 
                 if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     XSSFFont font = (XSSFFont) sxssfWorkbook.createFont();
                     //字体颜色
                     if (theadColumn.getTheadFontColor() != null
@@ -420,7 +432,7 @@ public class ExportExcelCore {
                 if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null
                         && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     XSSFFont font = (XSSFFont) sxssfWorkbook.createFont();
                     if (theadColumn.getDataFontColor() != null
                             && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6) {
@@ -541,7 +553,7 @@ public class ExportExcelCore {
 
                 if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     XSSFFont font = xssfWorkbook.createFont();
                     //字体颜色
                     if (theadColumn.getTheadFontColor() != null
@@ -595,7 +607,7 @@ public class ExportExcelCore {
                 if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null
                         && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     XSSFFont font = xssfWorkbook.createFont();
                     if (theadColumn.getDataFontColor() != null
                             && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6) {
@@ -720,7 +732,7 @@ public class ExportExcelCore {
 
                 if (theadColumn.getTheadFontWeight() != null
                         || (theadColumn.getTheadFontColor() != null && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     HSSFFont font = hssfWorkbook.createFont();
                     if (theadColumn.getTheadFontColor() != null
                             && theadColumn.getTheadFontColor().trim().replaceAll("#", "").length() == 6) {
@@ -775,7 +787,7 @@ public class ExportExcelCore {
 
                 if (theadColumn.getDataFontWeight() != null
                         || (theadColumn.getDataFontColor() != null && theadColumn.getDataFontColor().trim().replaceAll("#", "").length() == 6)
-                        ) {
+                ) {
                     Font font = hssfWorkbook.createFont();
 
                     if (theadColumn.getDataFontColor() != null
@@ -1095,8 +1107,8 @@ public class ExportExcelCore {
      */
     public short getColumnWidth(TheadColumnTree theadColumnTree) {
         double columnWidth = 0.0D;
-        if (theadColumnTree.getColumnWidth() != null && theadColumnTree.getColumnWidth() > 0) {
-            columnWidth = theadColumnTree.getColumnWidth();
+        if (theadColumnTree.getWidth() != null && theadColumnTree.getWidth() > 0) {
+            columnWidth = theadColumnTree.getWidth();
         }
         //其实，这个参数的单位是1/256个字符宽度，也就是说，这里是把B列的宽度设置为了columnWidth个字符。
         //return (short) ((int) (columnWidth * 256.0D));
